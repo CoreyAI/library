@@ -1,4 +1,9 @@
 let table = document.getElementById("table");
+let formContainer = document.getElementById("form-container");
+let form = document.getElementById("book-form");
+let formButton = document.getElementById("add-form");
+// let submitButton = document.getElementById("submit-button");
+let cancelButton = document.getElementById("cancel-button");
 
 let myLibrary = [];
 
@@ -17,7 +22,6 @@ function addLibraryToTable() {
   myLibrary.forEach(book => {
     let newRow = document.createElement("tr");
     for (key in book) {
-      // console.log(`${key}: ${book[key]}`);
       let newCell = document.createElement("td");
       newCell.textContent = `${book[key]}`;
       newRow.appendChild(newCell);
@@ -25,6 +29,24 @@ function addLibraryToTable() {
     table.appendChild(newRow);
   });
 }
+
+formButton.addEventListener("click", function() {
+  formContainer.removeAttribute("hidden");
+  formButton.setAttribute("hidden", "hidden");
+  table.setAttribute("hidden", "hidden");
+});
+
+// TODO: Create verification function to sanitize user input.
+form.addEventListener("submit", function(e) {
+  e.preventDefault();
+  
+});
+
+form.addEventListener("reset", function() {
+  formContainer.setAttribute("hidden", "hidden");
+  formButton.removeAttribute("hidden");
+  table.removeAttribute("hidden");
+});
 
 
 const book1 = new Book("The Hobbit", "J.R.R. Tolkien", 295, "yes");

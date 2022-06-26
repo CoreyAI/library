@@ -8,48 +8,52 @@
   <title>Document</title>
 </head>
 <body>
-  <h1>Book Library</h1>
-  <form action="post">
-    <label for="title">
-      <span class="label">Title:</span>
-      <input type="text" name="title" id="title">
-      <div class="error"></div>
-    </label>
-    <label for="author">
-      <span class="label">Author:</span>
-      <input type="text" name="author" id="author">
-      <div class="error"></div>
-    </label>
-    <label for="pages">
-      <span class="pages">Pages:</span>
-      <input type="number" name="pages" id="pages">
-      <div class="error"></div>
-    </label>
-    <label for="read">
-      <span class="label"> Have you read the book?</span>
-      <label for="read-yes">
-        <span class="radio-choice">Yes</span>
-        <input type="radio" name="read" id="read-yes" value="yes">
-      </label>
-      <label for="read-no">
-        <span class="radio-choice">No</span>
-        <input type="radio" name="read" id="read-no" value="no">
-      </label>
-    </label>
-    <button type="submit">Submit</button>
-  </form>
-
-  <table id="table">
-    <thead>
-      <tr>
-        <th>Title</th>
-        <th>Author</th>
-        <th>Pages</th>
-        <th>Read?</th>
-      </tr>
-    </thead>
-  </table>
-  
+  <div class="main-container" id="main-container">
+    <h1>Book Library</h1>
+    <div class="form-container" id="form-container" hidden>
+      <form action="#" id="book-form">
+        <label for="title">
+          <span class="label">Title:</span>
+          <input type="text" name="title" id="title">
+          <div class="error"></div>
+        </label>
+        <label for="author">
+          <span class="label">Author:</span>
+          <input type="text" name="author" id="author">
+          <div class="error"></div>
+        </label>
+        <label for="pages">
+          <span class="pages">Pages:</span>
+          <input type="number" name="pages" id="pages">
+          <div class="error"></div>
+        </label>
+        <label for="read">
+          <span class="label"> Have you read the book?</span>
+          <label for="read-yes">
+            <span class="radio-choice">Yes</span>
+            <input type="radio" name="read" id="read-yes" value="yes">
+          </label>
+          <label for="read-no">
+            <span class="radio-choice">No</span>
+            <input type="radio" name="read" id="read-no" value="no" checked>
+          </label>
+        </label>
+        <button type="submit" id="submit-button">Submit</button>
+        <button type="reset" id="cancel-button">Cancel</button>
+      </form>
+    </div>
+    <button id="add-form">Add Book</button>
+    <table id="table">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Author</th>
+          <th>Pages</th>
+          <th>Read?</th>
+        </tr>
+      </thead>
+    </table>
+  </div>
 
   <script src="script.js"></script>
 </body>

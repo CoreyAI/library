@@ -17,3 +17,9 @@ th {
 td {
   text-align: center;
 }
+
+.form-container {
+  /* visibility: hidden; */
+  /* display: none; */
+}
+
