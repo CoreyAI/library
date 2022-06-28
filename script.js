@@ -13,19 +13,30 @@ function Book(title, author, pages, read) {
   this.read = read;
 }
 
+Book.prototype.isAddedToTable = false;
+
 function addBookToLibrary(book) {
   myLibrary[myLibrary.length] = book;
 }
 
 function addLibraryToTable() {
   myLibrary.forEach(book => {
+    if (book.isAddedToTable == true) {
+      return;
+    }
+    
     let newRow = document.createElement("tr");
     for (key in book) {
+      if (key == "isAddedToTable") {
+        continue;
+      }
+
       let newCell = document.createElement("td");
       newCell.textContent = `${book[key]}`;
       newRow.appendChild(newCell);
     }
     table.appendChild(newRow);
+    book.isAddedToTable = true;
   });
 }
 
@@ -73,6 +84,7 @@ function verification() {
 
 const book1 = new Book("The Hobbit", "J.R.R. Tolkien", 295, "yes");
 const book2 = new Book("test", "me", 100, "no");
+book2.isAddedToTable = true;
 
 addBookToLibrary(book1);
 addBookToLibrary(book2);
