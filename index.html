@@ -14,17 +14,17 @@
       <form action="#" id="book-form">
         <label for="title">
           <span class="label">Title:</span>
-          <input type="text" name="title" id="title">
+          <input type="text" name="title" id="title" required>
           <div class="error"></div>
         </label>
         <label for="author">
           <span class="label">Author:</span>
-          <input type="text" name="author" id="author">
+          <input type="text" name="author" id="author" required>
           <div class="error"></div>
         </label>
         <label for="pages">
           <span class="pages">Pages:</span>
-          <input type="number" name="pages" id="pages">
+          <input type="number" name="pages" id="pages" required min="0">
           <div class="error"></div>
         </label>
         <label for="read">

@@ -2,7 +2,6 @@ let table = document.getElementById("table");
 let formContainer = document.getElementById("form-container");
 let form = document.getElementById("book-form");
 let formButton = document.getElementById("add-form");
-// let submitButton = document.getElementById("submit-button");
 let cancelButton = document.getElementById("cancel-button");
 
 let myLibrary = [];
@@ -40,13 +39,36 @@ formButton.addEventListener("click", function() {
 form.addEventListener("submit", function(e) {
   e.preventDefault();
   
+  let validation = verification();
+  if (validation == true) {
+    // form.submit();
+    let newBook = new Book(form.title.value, form.author.value, 
+      form.pages.value, form.read.value);
+    addBookToLibrary(newBook);
+    addLibraryToTable();
+    returnToTable();
+    return;
+  }
+
 });
 
 form.addEventListener("reset", function() {
+  returnToTable();
+});
+
+function returnToTable() {
   formContainer.setAttribute("hidden", "hidden");
   formButton.removeAttribute("hidden");
   table.removeAttribute("hidden");
-});
+}
+
+function verification() {
+  // Insert validation code to allow for user input to be submitted
+  // into the library.
+
+  // Placeholder true value to proceed with form submission.
+  return true;
+}
 
 
 const book1 = new Book("The Hobbit", "J.R.R. Tolkien", 295, "yes");
