@@ -1,8 +1,11 @@
+
 let table = document.getElementById("table");
 let formContainer = document.getElementById("form-container");
 let form = document.getElementById("book-form");
 let formButton = document.getElementById("add-form");
 let cancelButton = document.getElementById("cancel-button");
+let removeButton = document.getElementById("remove");
+let readButton = document.getElementById("read");
 
 let myLibrary = [];
 
@@ -13,6 +16,8 @@ function Book(title, author, pages, read) {
   this.read = read;
 }
 
+// Boolean flag used to determine if the book object within the array
+// has been added to the table on the webpage.
 Book.prototype.isAddedToTable = false;
 
 function addBookToLibrary(book) {
@@ -21,11 +26,15 @@ function addBookToLibrary(book) {
 
 function addLibraryToTable() {
   myLibrary.forEach(book => {
+    // Skips adding book if it's already on the table.
     if (book.isAddedToTable == true) {
       return;
     }
     
+    // Creates row element to be populated by the proceeding for-loops.
     let newRow = document.createElement("tr");
+
+    // Adds user's book to the table.
     for (key in book) {
       if (key == "isAddedToTable") {
         continue;
@@ -35,16 +44,25 @@ function addLibraryToTable() {
       newCell.textContent = `${book[key]}`;
       newRow.appendChild(newCell);
     }
+
+    // Adds action buttons to each book.
+    let cellId = ["remove", "read"];
+    for (i = 0; i < cellId.length; i++) {
+      let newCell = document.createElement("td");
+      let newButton = document.createElement("button");
+      newButton.setAttribute("id", cellId[i]);
+      newButton.textContent = capitalize(cellId[i]);
+      newCell.appendChild(newButton);
+      newRow.appendChild(newCell);
+    }
+
+    // Appends the new row into the main table, and adds a boolean
+    // flag to the book to indicate that it's been added to the table.
     table.appendChild(newRow);
     book.isAddedToTable = true;
   });
 }
 
-formButton.addEventListener("click", function() {
-  formContainer.removeAttribute("hidden");
-  formButton.setAttribute("hidden", "hidden");
-  table.setAttribute("hidden", "hidden");
-});
 
 // TODO: Create verification function to sanitize user input.
 form.addEventListener("submit", function(e) {
@@ -57,20 +75,31 @@ form.addEventListener("submit", function(e) {
       form.pages.value, form.read.value);
     addBookToLibrary(newBook);
     addLibraryToTable();
-    returnToTable();
+    showTable();
+    buttonScan();
     return;
   }
+  
+});
 
+formButton.addEventListener("click", function() {
+  showForm();
 });
 
 form.addEventListener("reset", function() {
-  returnToTable();
+  showTable();
 });
 
-function returnToTable() {
+function showTable() {
   formContainer.setAttribute("hidden", "hidden");
   formButton.removeAttribute("hidden");
   table.removeAttribute("hidden");
+}
+
+function showForm() {
+  formContainer.removeAttribute("hidden");
+  formButton.setAttribute("hidden", "hidden");
+  table.setAttribute("hidden", "hidden");
 }
 
 function verification() {
@@ -81,12 +110,43 @@ function verification() {
   return true;
 }
 
+function capitalize(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+// removeButton.addEventListener("click", function() {
+//   console.log("remove button activated");
+// });
+
+// readButton.addEventListener("click", function() {
+//   console.log("read button activated");
+// });
+
+function buttonScan() {
+  let buttons = document.querySelectorAll("button");
+  buttons.forEach(button => {
+    button.addEventListener('click', function(e) {
+      buttonLogic(this.id);
+    }); 
+  });
+}
+
+function tableButtonLogic(id) {
+  switch (id) {
+    case "read":
+      console.log("read");
+      break;
+    case "remove":
+      console.log("remove");
+      break; 
+  }
+}
 
 const book1 = new Book("The Hobbit", "J.R.R. Tolkien", 295, "yes");
 const book2 = new Book("test", "me", 100, "no");
-book2.isAddedToTable = true;
 
 addBookToLibrary(book1);
 addBookToLibrary(book2);
 
 addLibraryToTable();
+buttonScan();
