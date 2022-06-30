@@ -126,7 +126,7 @@ function buttonScan() {
   let buttons = document.querySelectorAll("button");
   buttons.forEach(button => {
     button.addEventListener('click', function(e) {
-      buttonLogic(this.id);
+      tableButtonLogic(this.id);
     }); 
   });
 }
