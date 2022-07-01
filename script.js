@@ -1,14 +1,15 @@
 
+// Initialize HTML elements for webpage interactivity. 
 let table = document.getElementById("table");
 let formContainer = document.getElementById("form-container");
 let form = document.getElementById("book-form");
 let formButton = document.getElementById("add-form");
 let cancelButton = document.getElementById("cancel-button");
-let removeButton = document.getElementById("remove");
-let readButton = document.getElementById("read");
 
+// Array to hold the book objects for the library table.
 let myLibrary = [];
 
+// Book object constructor. 
 function Book(title, author, pages, read) {
   this.title = title;
   this.author = author;
@@ -20,10 +21,13 @@ function Book(title, author, pages, read) {
 // has been added to the table on the webpage.
 Book.prototype.isAddedToTable = false;
 
+// Adds book object to library array.
 function addBookToLibrary(book) {
   myLibrary[myLibrary.length] = book;
 }
 
+// Adds book objects from array into the HTML table.
+// There could be potential to modify this algorithm to improve computational time.
 function addLibraryToTable() {
   myLibrary.forEach(book => {
     // Skips adding book if it's already on the table.
@@ -40,6 +44,10 @@ function addLibraryToTable() {
         continue;
       }
 
+      if (key == "title") {
+        newRow.setAttribute("id", book[key])
+      }
+
       let newCell = document.createElement("td");
       newCell.textContent = `${book[key]}`;
       newRow.appendChild(newCell);
@@ -50,7 +58,7 @@ function addLibraryToTable() {
     for (i = 0; i < cellId.length; i++) {
       let newCell = document.createElement("td");
       let newButton = document.createElement("button");
-      newButton.setAttribute("id", cellId[i]);
+      newButton.setAttribute("class", `${cellId[i]}-button`);
       newButton.textContent = capitalize(cellId[i]);
       newCell.appendChild(newButton);
       newRow.appendChild(newCell);
@@ -90,12 +98,14 @@ form.addEventListener("reset", function() {
   showTable();
 });
 
+// Modifies HTML attributes to hide form data and show the library table.
 function showTable() {
   formContainer.setAttribute("hidden", "hidden");
   formButton.removeAttribute("hidden");
   table.removeAttribute("hidden");
 }
 
+// Modifies HTML attributes to hide library table and show form data. 
 function showForm() {
   formContainer.removeAttribute("hidden");
   formButton.setAttribute("hidden", "hidden");
@@ -110,42 +120,50 @@ function verification() {
   return true;
 }
 
+// Capitalizes the first character in the 'Remove' and 'Read' buttons.
 function capitalize(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-// removeButton.addEventListener("click", function() {
-//   console.log("remove button activated");
-// });
 
-// readButton.addEventListener("click", function() {
-//   console.log("read button activated");
-// });
-
+// Scans button clicks and assigns the appropriate cases. This code could
+// potentially allow for refactoring of the 'Add Book', 'Submit', and 
+// cancel buttons.
 function buttonScan() {
   let buttons = document.querySelectorAll("button");
   buttons.forEach(button => {
     button.addEventListener('click', function(e) {
-      tableButtonLogic(this.id);
+      switch (this.className) {
+        case "read-button":
+          console.log("read");
+          break;
+        case "remove-button":
+          deleteBook(e.currentTarget.parentElement.parentElement.id);
+          e.currentTarget.parentElement.parentElement.remove();
+          break; 
+      }
     }); 
   });
 }
 
-function tableButtonLogic(id) {
-  switch (id) {
-    case "read":
-      console.log("read");
-      break;
-    case "remove":
-      console.log("remove");
-      break; 
+// Deletes the specified book by it's unique title.
+// TODO: deletion is based upon the book's title. Potential bug if there's 2+
+//       books with the same name. Need better algorithm/method to attribute
+//       remove button with the proper <tr> row in table.
+function deleteBook(id) {
+  for (i = 0; i < myLibrary.length; i++) {
+    console.log("test");
+    if (id === myLibrary[i].title) {
+      myLibrary.splice(i, 1);
+    }
   }
 }
 
-const book1 = new Book("The Hobbit", "J.R.R. Tolkien", 295, "yes");
-const book2 = new Book("test", "me", 100, "no");
 
+// Adds two books to the library list upon first load of the page.
+const book1 = new Book("The Hobbit", "J.R.R. Tolkien", 295, "yes");
 addBookToLibrary(book1);
+const book2 = new Book("test", "me", 100, "no");
 addBookToLibrary(book2);
 
 addLibraryToTable();
