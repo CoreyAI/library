@@ -49,7 +49,8 @@ function addLibraryToTable() {
       }
 
       let newCell = document.createElement("td");
-      newCell.textContent = `${book[key]}`;
+      newCell.textContent = book[key];
+      newCell.setAttribute("id", key);
       newRow.appendChild(newCell);
     }
 
@@ -136,6 +137,7 @@ function buttonScan() {
       switch (this.className) {
         case "read-button":
           console.log("read");
+          changeReadStatus(e.currentTarget.parentElement.parentElement)
           break;
         case "remove-button":
           deleteBook(e.currentTarget.parentElement.parentElement.id);
@@ -147,14 +149,32 @@ function buttonScan() {
 }
 
 // Deletes the specified book by it's unique title.
-// TODO: deletion is based upon the book's title. Potential bug if there's 2+
+// TODO: Deletion is based upon the book's title. Potential bug if there's 2+
 //       books with the same name. Need better algorithm/method to attribute
 //       remove button with the proper <tr> row in table.
 function deleteBook(id) {
   for (i = 0; i < myLibrary.length; i++) {
-    console.log("test");
+    // console.log("test");
     if (id === myLibrary[i].title) {
       myLibrary.splice(i, 1);
+    }
+  }
+}
+
+// Changes the read state of the book.
+// Could potentially refactor this code to include the innerHTML revision in the
+// addLibraryToTable function (may require an additional boolean flag to state a
+// revision occurred for proper modification).
+function changeReadStatus(tr) {
+  for (i = 0; i < myLibrary.length; i++) {
+    if (tr.id === myLibrary[i].title) {
+      if (myLibrary[i].read === "yes") {
+        myLibrary[i].read = "no";
+        tr.children['read'].innerText = "no";
+      } else {
+        myLibrary[i].read = "yes";
+        tr.children['read'].innerText = "yes";
+      }
     }
   }
 }
@@ -166,5 +186,6 @@ addBookToLibrary(book1);
 const book2 = new Book("test", "me", 100, "no");
 addBookToLibrary(book2);
 
+// Adds initial book array to the table and activates the button event listener.
 addLibraryToTable();
 buttonScan();
