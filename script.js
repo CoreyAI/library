@@ -10,11 +10,13 @@ let cancelButton = document.getElementById("cancel-button");
 let myLibrary = [];
 
 // Book object constructor. 
-function Book(title, author, pages, read) {
-  this.title = title;
-  this.author = author;
-  this.pages = pages;
-  this.read = read;
+class Book {
+  constructor(title, author, pages, read) {
+    this.title = title;
+    this.author = author;
+    this.pages = pages;
+    this.read = read;
+  }
 }
 
 // Boolean flag used to determine if the book object within the array
